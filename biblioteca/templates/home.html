@@ -1,0 +1,35 @@
+{% extends 'navbar.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <h1>Home</h1>
+    <section class="container card-container">
+    {% for libro in libros %}
+        <div class="card">
+            <div class="imagen-tarjeta">
+                <img src="{{ libro.portada.url }}" alt="">
+            </div>
+            <div class="datos-tarjeta">
+                <h2><strong>{{ libro.titulo }}</strong></h2>
+                <p> ${{ libro.precio }}</p>
+                {% if user.is_authenticated %}
+                <button><a href="{% url 'libro_id' libro.id %}">Comprar</a></button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+{% endblock %}
+</body>
+</html>

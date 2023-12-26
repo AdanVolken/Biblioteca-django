@@ -1,0 +1,40 @@
+h1{
+    margin: 20px 20px;
+}
+
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 15px;
+    border: 2px solid black; /* Borde negro de 2 píxeles */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
+    margin: auto;
+    height: 300px;
+    width: 200px;
+}
+
+.imagen-tarjeta img{
+    display: flex;
+    align-items: center;
+    height: 200px;
+    width: 196px;
+    border-radius: 15px 15px 0 0;
+
+}
+
+.datos-tarjeta{
+    display: inline;
+    text-align: center;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
