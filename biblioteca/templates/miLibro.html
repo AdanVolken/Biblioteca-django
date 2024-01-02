@@ -1,15 +1,24 @@
 {% extends 'navbar.html' %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mis Libros</title>
 </head>
 <body>
     {% block content %}
-        <h2>Mi Libro</h2>
+        <h2>Mis Libros</h2>
+        <ul>
+            {% for libro in libros_descargados %}
+                <li>
+                    {{ libro.titulo }}
+                    <a href= "º" class="btn btn-success">Descargar</a>
+                </li>
+            {% endfor %}
+        </ul>
     {% endblock %}
 </body>
 </html>

@@ -8,6 +8,8 @@ from .views import (
     libro_id,
     registro,
     sesion,    
+    pagos,
+    pagado,
 )
 
 
@@ -18,4 +20,6 @@ urlpatterns = [
     path('biblioteca/', biblioteca, name="biblioteca"),
     path('mi_libro/', mi_libro, name="mi_libro"),
     path('biblioteca/libro/<int:id>/', libro_id, name="libro_id"),
+    path('pagos/<int:id>/', pagos , name="pagos"),
+    path('pagado/<int:id>/', pagado, name = "pagado")
 ]

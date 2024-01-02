@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
+import stripe
+from config import settings
 
 # Create your views here.
 def home(request):
@@ -49,7 +51,10 @@ def biblioteca(request):
 
 @login_required
 def mi_libro(request):
-    return render(request, 'miLibro.html')
+    compras_usuario = Compra.objects.filter(cliente=request.user.cliente, descargado=True)
+    libros_descargados = [compra.libro for compra in compras_usuario]
+
+    return render(request, 'miLibro.html', {'libros_descargados': libros_descargados})
 
 def libro_id(request, id):
     libro = LibroCompra.objects.get(id = id)
@@ -57,3 +62,34 @@ def libro_id(request, id):
     return render(request, 'libro_id.html' ,{
         'libro': libro
     })
+
+
+
+stripe.api_key = 'sk_test_51ORfZLHv2WvnwEKoM5xUkuBgl8cr8JmQEFCJrMcPxwYKqxAF2vj2u92geVi8Vo2Zrc1PS2MIWWsj7ayAyFLRX3Ks00vtr11vzv'
+dominio = 'http://localhost:8000'
+
+def pagos(request, id):
+    
+    checkout_session = stripe.checkout.Session.create(
+        
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': 'price_1ORgRBHv2WvnwEKo6vb36qm2',
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url=f'{dominio}/pagado/{id}',
+            cancel_url=dominio,
+        )
+    return redirect(checkout_session.url) 
+
+def pagado (request,id):
+    libro = LibroCompra.objects.get(id=id)
+
+    compra = Compra.objects.get(cliente=request.user.cliente, libro=libro)
+    compra.descargado = True
+    compra.save()
+
+    return render(request, 'pagado.html',{'libro': libro})

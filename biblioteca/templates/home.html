@@ -23,9 +23,12 @@
             <div class="datos-tarjeta">
                 <h2><strong>{{ libro.titulo }}</strong></h2>
                 <p> ${{ libro.precio }}</p>
-                {% if user.is_authenticated %}
-                <button><a href="{% url 'libro_id' libro.id %}">Comprar</a></button>
-                {% endif %}
+                
+                <form action="{% url 'pagos' libro.id  %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" id="checkout-button">Checkout</button>
+                  </form>
+                
             </div>
         </div>
         {% endfor %}
